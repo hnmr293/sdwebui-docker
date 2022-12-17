@@ -1,7 +1,7 @@
 This dockerfile launches stable-diffusion web UI (AUTOMATIC1111/stable-diffusion-webui).
 
 1. how to build this docker image
-sudo docker image build -t {name} .
+$ sudo docker image build -t {name} .
 
 2. how to run stable-diffusion web UI in docker
 $ sudo docker image pull hnmr293/sdwebui:{tag}
