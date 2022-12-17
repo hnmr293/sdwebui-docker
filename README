@@ -5,18 +5,18 @@ $ sudo docker image build -t {name} .
 
 2. how to run stable-diffusion web UI in docker
 $ sudo docker image pull hnmr293/sdwebui:{tag}
-$ sudo docker run --gpus all --rm --name sdwebui -p {port}:7860 -d hnmr293/sdwebui[:tag] /bin/bash
+$ sudo docker run --gpus all --rm --name sdwebui -p {port}:7860 -d hnmr293/sdwebui:{tag} /bin/bash
 $ sudo docker exec -d sdwebui run-sd {user} {password}
 note.
-- put {tag} to identify docker image. ({tag} = :v0.1, :v0.2, ...)
+- put {tag} to identify docker image. ({tag} = v0.1, v0.2, ...)
 - pass {user} and {password} to `run-sd` for Gradio authentication.
-- {port} is the port number for accessing Gradio.
+- {port} is the port number to access Gradio.
 
 3. how to install new models and VAEs
 The following command downloads Elysium_V1.ckpt to models/Stable-diffusion/.
 $ sudo docker exec -d sdwebui install-model https://huggingface.co/hesw23168/SD-Elysium-Model/resolve/main/Elysium_V1.ckpt Elysium_V1.ckpt
 The following command downloads vae-ft-mse-840000-ema-pruned.ckpt to hidden_models/, and creates a symbolic link from models/Stable-diffusion/Elysium_V1.vae.pt to hidden_models/vae-ft-mse-840000-ema-pruned.ckpt.
 $ sudo docker exec -d sdwebui install-model-vae https://huggingface.co/stabilityai/sd-vae-ft-mse-original/resolve/main/vae-ft-mse-840000-ema-pruned.ckpt Elysium_V1.vae.pt
-The following command downloads a file to models/VAE.
+The following command downloads a file to models/VAE/.
 $ sudo docker exec -d sdwebui install-vae URL NAME
 
