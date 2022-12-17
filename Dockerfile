@@ -38,46 +38,8 @@ RUN wget -qO- https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-w
 RUN cd /data/stable-diffusion-webui/models/Stable-diffusion && \
     curl -O -L https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.ckpt
 
-RUN mkdir /data/bin && \
-    ( \
-      echo '#! /usr/bin/env bash'                                   ; \
-      echo ''                                                       ; \
-      echo 'cd /data/stable-diffusion-webui'                        ; \
-      echo '. ./venv/bin/activate'                                  ; \
-      echo 'case $# in'                                             ; \
-      echo '  0) ARGS="" ;;'                                        ; \
-      echo '  1) ARGS="--port \"$1\"" ;;'                           ; \
-      echo '  2) ARGS="--gradio-auth \"$1:$2\"" ;;'                 ; \
-      echo '  3) ARGS="--gradio-auth \"$1:$2\" --port \"$3\"" ;;'   ; \
-      echo '  *) echo "invalid arguments"; exit 1 ;;'               ; \
-      echo 'esac'                                                   ; \
-      echo 'python launch.py --xformers --listen ${ARGS}'           ; \
-    ) >/data/bin/run-sd && \
-    \
-    ( \
-      echo '#! /usr/bin/env bash'                                   ; \
-      echo ''                                                       ; \
-      echo 'cd /data/stable-diffusion-webui/models/Stable-diffusion'; \
-      echo 'case $# in'                                             ; \
-      echo '  1) curl -L "$1" -O ;;'                                ; \
-      echo '  2) curl -L "$1" -o "$2" ;;'                           ; \
-      echo '  *) echo "invalid arguments"; exit 1 ;;'               ; \
-      echo 'esac'                                                   ; \
-    ) >/data/bin/install-model && \
-    \
-    ( \
-      echo '#! /usr/bin/env bash'                                   ; \
-      echo ''                                                       ; \
-      echo 'cd /data/stable-diffusion-webui/models/VAE'             ; \
-      echo 'case $# in'                                             ; \
-      echo '  1) curl -L "$1" -O ;;'                                ; \
-      echo '  2) curl -L "$1" -o "$2" ;;'                           ; \
-      echo '  *) echo "invalid arguments"; exit 1 ;;'               ; \
-      echo 'esac'                                                   ; \
-    ) >/data/bin/install-vae && \
-    \
-    chmod +x /data/bin/run-sd /data/bin/install-model /data/bin/install-vae
-
+RUN mkdir /data/bin
+COPY --chown=sd_user:sd_user run-sd install-model install-model-vae install-vae /data/bin/
 ENV PATH="/data/bin:$PATH"
 
 CMD [ "run-sd" ]

@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+
+cd /data/stable-diffusion-webui
+. ./venv/bin/activate
+case $# in
+  0) ARGS="" ;;
+  1) ARGS="--port \"$1\"" ;;
+  2) ARGS="--gradio-auth \"$1:$2\"" ;;
+  3) ARGS="--gradio-auth \"$1:$2\" --port \"$3\"" ;;
+  *) echo "invalid arguments"; exit 1 ;;
+esac
+python launch.py --xformers --listen ${ARGS}

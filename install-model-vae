@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+
+mkdir -p /data/stable-diffusion-webui/hidden_models
+cd /data/stable-diffusion-webui/hidden_models
+name=$(basename "$1")
+curl -L "$1" -o "$name"
+cd /data/stable-diffusion-webui/models/Stable-diffusion
+ln -s "../../hidden_models/$name" "$2"

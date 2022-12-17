@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+
+cd /data/stable-diffusion-webui/models/VAE
+case $# in
+  1) curl -L "$1" -O ;;
+  2) curl -L "$1" -o "$2" ;;
+  *) echo "invalid arguments"; exit 1 ;;
+esac
