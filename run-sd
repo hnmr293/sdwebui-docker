@@ -9,4 +9,4 @@ case $# in
   3) ARGS="--gradio-auth \"$1:$2\" --port \"$3\"" ;;
   *) echo "invalid arguments"; exit 1 ;;
 esac
-python launch.py --xformers --listen ${ARGS}
+python launch.py --xformers --listen --ckpt 'test/test_files/empty.pt' ${ARGS}
